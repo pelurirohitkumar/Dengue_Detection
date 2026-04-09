@@ -54,7 +54,7 @@ def load_model():
     try:
         base = os.path.dirname(os.path.abspath(__file__))
         path = os.path.join(base, "../best_logistic_model.pkl")
-        with open(model_path, "rb") as f:
+        with open(path, "rb") as f:
             return pickle.load(f)
     except Exception as e:
         st.error(f"❌ Model loading failed: {e}")
