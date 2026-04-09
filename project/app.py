@@ -149,8 +149,8 @@ if st.button("🔍 Predict Dengue Risk", use_container_width=True):
                 score = model.decision_function(input_data)[0]
                 st.write(f"Model Score: {score:.2f}")
 
-            # Prediction result
-            if prediction == 0:
+            # Prediction result (FIXED INDENTATION)
+            if prediction == 1:
                 st.error("⚠️ High Dengue Risk Detected")
                 st.warning("Please consult a doctor immediately")
             else:
