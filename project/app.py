@@ -47,23 +47,15 @@ section[data-testid="stSidebar"] {
 """, unsafe_allow_html=True)
 
 # =========================
-# Load Model (FIXED)
+# Load Model (SAFE)
 # =========================
 @st.cache_resource
 def load_model():
     try:
-        # Get current script directory
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-
-        # Model path (same folder as app.py)
-        model_path = os.path.join(base_dir, "best_logistic_model.pkl")
-
-        # Debug (optional - remove later)
-        # st.write("Looking for model at:", model_path)
-
+        base = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(base, "../best_logistic_model.pkl")
         with open(model_path, "rb") as f:
             return pickle.load(f)
-
     except Exception as e:
         st.error(f"❌ Model loading failed: {e}")
         return None
@@ -74,12 +66,8 @@ model = load_model()
 # Model Info (SAFE)
 # =========================
 if model is not None:
-    try:
-        model_name = list(model.named_steps.keys())[-1]
-        model_type = type(model.named_steps[model_name]).__name__
-    except:
-        model_name = "Unknown"
-        model_type = type(model).__name__
+    model_name = list(model.named_steps.keys())[-1]
+    model_type = type(model.named_steps[model_name]).__name__
 else:
     model_name = "Not Loaded"
     model_type = "Error"
@@ -134,7 +122,7 @@ st.divider()
 if st.button("🔍 Predict Dengue Risk", use_container_width=True):
 
     if model is None:
-        st.error("❌ Model not loaded. Please check file location.")
+        st.error("❌ Model not loaded. Please check file path.")
     else:
         input_data = pd.DataFrame({
             'wbc_count': [wbc_count],
@@ -153,7 +141,7 @@ if st.button("🔍 Predict Dengue Risk", use_container_width=True):
 
             st.subheader("📊 Prediction Result")
 
-            # Probability / Score
+            # Score handling
             if hasattr(model, "predict_proba"):
                 prob = model.predict_proba(input_data)[0][1]
                 st.progress(float(prob))
@@ -163,7 +151,7 @@ if st.button("🔍 Predict Dengue Risk", use_container_width=True):
                 score = model.decision_function(input_data)[0]
                 st.write(f"Model Score: {score:.2f}")
 
-            # Result display
+            # Prediction result
             if prediction == 0:
                 st.error("⚠️ High Dengue Risk Detected")
                 st.warning("Please consult a doctor immediately")
