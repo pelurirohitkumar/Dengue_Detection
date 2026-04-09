@@ -52,9 +52,7 @@ section[data-testid="stSidebar"] {
 @st.cache_resource
 def load_model():
     try:
-        # robust path (works local + cloud)
-        model_path = r"G:\dengue dataset\best_logistic_model.pkl"
-        with open(model_path, "rb") as f:
+        with open("best_logistic_model.pkl", "rb") as f:
             return pickle.load(f)
     except Exception as e:
         st.error(f"❌ Model loading failed: {e}")
