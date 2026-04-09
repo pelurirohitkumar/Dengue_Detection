@@ -52,7 +52,13 @@ section[data-testid="stSidebar"] {
 @st.cache_resource
 def load_model():
     try:
+<<<<<<< HEAD
         with open("best_logistic_model.pkl", "rb") as f:
+=======
+        base = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(base, "../best_logistic_model.pkl")
+        with open(path, "rb") as f:
+>>>>>>> c91fd36cbb11fe60870ffe8af66d418dcc14eb84
             return pickle.load(f)
     except Exception as e:
         st.error(f"❌ Model loading failed: {e}")
