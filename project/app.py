@@ -53,7 +53,7 @@ section[data-testid="stSidebar"] {
 def load_model():
     try:
         # robust path (works local + cloud)
-        model_path = r"G:\dengue dataset\best_logistic_model.pkl"
+        model_path = r"../best_logistic_model.pkl"
         with open(model_path, "rb") as f:
             return pickle.load(f)
     except Exception as e:
